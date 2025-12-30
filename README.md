@@ -1,4 +1,4 @@
-## ESP32 WiFi issue
+## ESP32 WiFi issue
 How to reproduce:
 
 - Build and flash with `cargo run --release --features esp32` (target is ESP32-WROOM-32E)
