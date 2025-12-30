@@ -19,6 +19,9 @@ esp-println = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", vers
 esp-radio = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.17.0", features = ["log-04", "unstable", "wifi"] }
 esp-rtos = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.2.0", features = ["embassy", "log-04", "esp-alloc", "esp-radio"] }
 esp-storage = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.8.1" }
+anyhow = { version = "1.0.100", default-features = false }
+log = "0.4.29"
+picoserve = { version = "0.17.1", features = ["embassy", "json"] }
 static_cell = "2.1.1"
 
 [unstable]

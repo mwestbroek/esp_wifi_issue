@@ -2,11 +2,11 @@
 #![no_main]
 
 use embassy_executor::Spawner;
+use embassy_net::Stack;
 use esp_println::println;
 use core::panic::PanicInfo;
 use esp_hal::{
     clock::CpuClock,
-    gpio::{Level, Output, OutputConfig},
     interrupt::{software::SoftwareInterruptControl, Priority},
 };
 use esp_hal::timer::timg::TimerGroup;
@@ -14,7 +14,7 @@ use static_cell::StaticCell;
 use esp_rtos::embassy::InterruptExecutor;
 use embassy_time::{Duration, Timer};
 
-
+mod http;
 mod wifi;
 
 esp_bootloader_esp_idf::esp_app_desc!();
@@ -22,8 +22,16 @@ esp_bootloader_esp_idf::esp_app_desc!();
 #[embassy_executor::task]
 async fn interrupt_task() {
     loop {
-        println!("Interrupt task running");
-        Timer::after(Duration::from_millis(500)).await;
+        Timer::after(Duration::from_millis(1)).await;
+    }
+}
+
+#[embassy_executor::task]
+async fn run_http_server(stack: Stack<'static>) {
+    let mut http_server = http::HttpServer::new(stack, 3502);
+    println!("Starting HTTP server...");
+    if let Err(e) = http_server.run().await {
+        println!("HTTP server error: {}", e);
     }
 }
 
@@ -53,6 +61,7 @@ async fn main(low_priority_spawner: Spawner) {
     let spawner = executor.start(Priority::Priority3);
     // The interrupt executor can interrupt uncooperative tasks
     spawner.must_spawn(interrupt_task());
+    low_priority_spawner.must_spawn(run_http_server(stack));
 
 }
 
