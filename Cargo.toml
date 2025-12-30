@@ -1,0 +1,38 @@
+[package]
+name = "esp_wifi_issue"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+embassy-executor = "0.9.1"
+embassy-net = { version = "0.7.1", features =  [ 
+    "dhcpv4",
+    "tcp",
+    "medium-ethernet"
+] }
+embassy-time = "0.5.0"
+esp-alloc = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.9.0" }
+esp-backtrace = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.18.1", features = ["println"]}
+esp-bootloader-esp-idf = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.4.0" }
+esp-hal = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "1.0.0" }
+esp-println = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.16.1" }
+esp-radio = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.17.0", features = ["log-04", "unstable", "wifi"] }
+esp-rtos = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.2.0", features = ["embassy", "log-04", "esp-alloc", "esp-radio"] }
+esp-storage = { git = "https://github.com/esp-rs/esp-hal", rev = "99a0840", version = "0.8.1" }
+static_cell = "2.1.1"
+
+[unstable]
+build-std = ["core", "alloc"]
+
+
+[features]
+esp32 = [
+    "esp-radio/esp32",
+    "esp-println/esp32",
+    "esp-hal/esp32",
+    "esp-rtos/esp32",
+    "esp-backtrace/esp32",
+    "esp-alloc/esp32",
+    "esp-storage/esp32",
+    "esp-bootloader-esp-idf/esp32",
+]

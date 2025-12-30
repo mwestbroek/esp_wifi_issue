@@ -1,0 +1,26 @@
+[build]
+target = "xtensa-esp32-none-elf"
+
+[target.xtensa-esp32-none-elf]
+runner = "espflash flash --monitor"
+rustflags = [
+  # GNU LD
+  "-C",
+  "link-arg=-Wl,-Tlinkall.x",
+  "-C",
+  "link-arg=-nostartfiles",
+]
+
+[unstable]
+build-std = ["core", "alloc"]
+
+[env]
+ESP_LOG = "debug,esp_rtos=info"
+SSID = "SSID"
+PASSWORD = "PASSWORD"
+STATIC_IP = "1.1.1.1"
+GATEWAY_IP = "1.1.1.1"
+HOST_IP = "1.1.1.1"
+
+[release]
+debug = true
